@@ -7,10 +7,8 @@ local echo = require("auto-save.utils.echo")
 local autosave_running
 local api = vim.api
 local g = vim.g
-local fn = vim.fn
 local cmd = vim.cmd
 local o = vim.o
-local AUTO_SAVE_COLOR = "MsgArea"
 local BLACK = "#000000"
 local WHITE = "#ffffff"
 
@@ -82,11 +80,13 @@ function M.save(buf)
 
     callback("after_saving")
 
-    echo(
-        type(cnf.opts.execution_message.message) == "function"
-        and cnf.opts.execution_message.message()
-        or cnf.opts.execution_message.message
-    )
+    if cnf.opts.execution_message ~= nil and next(cnf.opts.execution_message) == nil then
+        echo(
+            type(cnf.opts.execution_message.message) == "function"
+            and cnf.opts.execution_message.message()
+            or cnf.opts.execution_message.message
+        )
+    end
 end
 
 local save_func = (
