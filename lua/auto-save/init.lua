@@ -82,40 +82,11 @@ function M.save(buf)
 
     callback("after_saving")
 
-    api.nvim_echo(
-        {
-            {
-                (
-                    type(cnf.opts.execution_message.message) == "function"
-                        and cnf.opts.execution_message.message()
-                    or cnf.opts.execution_message.message
-                ),
-                AUTO_SAVE_COLOR,
-            },
-        },
-        true,
-        {}
+    echo(
+        type(cnf.opts.execution_message.message) == "function"
+        and cnf.opts.execution_message.message()
+        or cnf.opts.execution_message.message
     )
-    if cnf.opts.execution_message.cleaning_interval > 0 then
-        fn.timer_start(cnf.opts.execution_message.cleaning_interval, function()
-            cmd([[echon '']])
-        end)
-    end
-    api.nvim_echo({
-        {
-            (
-                type(cnf.opts.execution_message.message) == "function"
-                    and cnf.opts.execution_message.message()
-                or cnf.opts.execution_message.message
-            ),
-            AUTO_SAVE_COLOR,
-        },
-    }, true, {})
-    if cnf.opts.execution_message.cleaning_interval > 0 then
-        fn.timer_start(cnf.opts.execution_message.cleaning_interval, function()
-            cmd([[echon '']])
-        end)
-    end
 end
 
 local save_func = (
@@ -147,11 +118,11 @@ function M.on()
                         )
                         local foreground = (
                             o.background == "dark"
-                                and colors.darken(
-                                    (MSG_AREA.background or BLACK),
-                                    cnf.opts.execution_message.dim,
-                                    MSG_AREA.foreground or BLACK
-                                )
+                            and colors.darken(
+                                (MSG_AREA.background or BLACK),
+                                cnf.opts.execution_message.dim,
+                                MSG_AREA.foreground or BLACK
+                            )
                             or colors.lighten(
                                 (MSG_AREA.background or WHITE),
                                 cnf.opts.execution_message.dim,
